@@ -1,2 +1,2 @@
 key: 
-	gcc seye.c -o seye -L/usr/X11/lib -lX11 -Wdeprecated-declarations
+	gcc seye.c -o seye -L/usr/X11/lib -lX11 
